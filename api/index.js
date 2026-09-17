@@ -22,7 +22,9 @@ async function connectDatabase() {
         throw new Error("MONGODB_URI environment variable is not configured");
     }
 
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI), {
+		dbName: "business_db"
+    });
 
     isConnected = true;
 
