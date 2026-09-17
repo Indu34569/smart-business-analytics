@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Business Analytics</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="brand">
+                <div class="brand-icon">✦</div>
+
+                <div>
+                    <h1>SmartBiz</h1>
+                    <span>Analytics Platform</span>
+                </div>
+            </div>
+
+            <nav class="navigation">
+
+                <button class="nav-item active" data-tab="dashboard">
+                    <span>⌂</span>
+                    Dashboard
+                </button>
+
+                <button class="nav-item" data-tab="customers">
+                    <span>♙</span>
+                    Customers
+                </button>
+
+                <button class="nav-item" data-tab="sales">
+                    <span>▣</span>
+                    Sales
+                </button>
+
+                <button class="nav-item" data-tab="analytics">
+                    <span>◈</span>
+                    Analytics
+                </button>
+
+                <button class="nav-item" data-tab="reports">
+                    <span>▤</span>
+                    Reports
+                </button>
+
+                <button class="nav-item" data-tab="process">
+                    <span>⚙</span>
+                    Data Process
+                </button>
+
+            </nav>
+
+            <div class="sidebar-footer">
+
+                <div class="system-indicator">
+                    <span class="status-dot"></span>
+
+                    <div>
+                        <strong>System Online</strong>
+                        <small>MongoDB Connected</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Top Header -->
+            <header class="top-header">
+
+                <div>
+                    <p class="eyebrow">BUSINESS INTELLIGENCE</p>
+                    <h2 id="page-title">Dashboard</h2>
+                </div>
+
+                <div class="header-right">
+
+                    <div class="connection-status">
+                        <span class="status-dot"></span>
+                        Live Data
+                    </div>
+
+                    <div class="date-display" id="current-date"></div>
+
+                </div>
+
+            </header>
+
+
+            <!-- ================= DASHBOARD ================= -->
+
+            <section class="tab-content active" id="dashboard-tab">
+
+                <div class="welcome-section">
+
+                    <div>
+                        <h3>Business Overview</h3>
+                        <p>
+                            Monitor sales performance, customers and business
+                            activity from one centralized dashboard.
+                        </p>
+                    </div>
+
+                    <div class="dashboard-badge">
+                        ✨ Real-Time Analytics
+                    </div>
+
+                </div>
+
+
+                <!-- KPI Cards -->
+
+                <div class="kpi-grid">
+
+                    <div class="kpi-card">
+
+                        <div class="kpi-icon">👥</div>
+
+                        <div>
+                            <span>Total Customers</span>
+                            <strong id="total-customers">--</strong>
+                            <small>Registered customers</small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="kpi-card">
+
+                        <div class="kpi-icon">₹</div>
+
+                        <div>
+                            <span>Total Revenue</span>
+                            <strong id="total-revenue">--</strong>
+                            <small>Completed sales</small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="kpi-card">
+
+                        <div class="kpi-icon">🛒</div>
+
+                        <div>
+                            <span>Total Orders</span>
+                            <strong id="total-orders">--</strong>
+                            <small>Completed orders</small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="kpi-card">
+
+                        <div class="kpi-icon">↗</div>
+
+                        <div>
+                            <span>Average Order</span>
+                            <strong id="average-order">--</strong>
+                            <small>Average order value</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Charts -->
+
+                <div class="dashboard-grid">
+
+                    <div class="panel large-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>Monthly Revenue</h3>
+                                <p>Revenue generated across months</p>
+                            </div>
+
+                            <span class="panel-label">2026</span>
+
+                        </div>
+
+                        <div class="chart-container">
+                            <canvas id="monthlyRevenueChart"></canvas>
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>Customer Types</h3>
+                                <p>New vs returning customers</p>
+                            </div>
+
+                        </div>
+
+                        <div class="chart-container doughnut-container">
+                            <canvas id="customerTypeChart"></canvas>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Quick Statistics -->
+
+                <div class="dashboard-grid bottom-grid">
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>Top Customer</h3>
+                                <p>Highest completed purchase value</p>
+                            </div>
+
+                        </div>
+
+                        <div class="top-customer" id="top-customer">
+                            Loading...
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>Category Performance</h3>
+                                <p>Revenue by business category</p>
+                            </div>
+
+                        </div>
+
+                        <div id="category-summary" class="category-list">
+                            Loading...
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= CUSTOMERS ================= -->
+
+            <section class="tab-content" id="customers-tab">
+
+                <div class="section-heading">
+
+                    <div>
+                        <p class="eyebrow">CUSTOMER MANAGEMENT</p>
+                        <h3>Customer Insights</h3>
+                        <p>
+                            Customer records retrieved directly from MongoDB.
+                        </p>
+                    </div>
+
+                    <div class="search-box">
+                        <input
+                            type="text"
+                            id="customer-search"
+                            placeholder="Search customer..."
+                        >
+                    </div>
+
+                </div>
+
+
+                <div class="stats-strip">
+
+                    <div>
+                        <span>Total Customers</span>
+                        <strong id="customer-count">--</strong>
+                    </div>
+
+                    <div>
+                        <span>Returning</span>
+                        <strong id="returning-count">--</strong>
+                    </div>
+
+                    <div>
+                        <span>New</span>
+                        <strong id="new-count">--</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="panel table-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>Customer Database</h3>
+                            <p>Live records from MongoDB Atlas</p>
+                        </div>
+
+                    </div>
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>City</th>
+                                    <th>Customer Type</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="customers-table-body">
+
+                                <tr>
+                                    <td colspan="5">Loading customer data...</td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= SALES ================= -->
+
+            <section class="tab-content" id="sales-tab">
+
+                <div class="section-heading">
+
+                    <div>
+                        <p class="eyebrow">TRANSACTION MONITORING</p>
+                        <h3>Sales Transactions</h3>
+                        <p>
+                            View completed business transactions retrieved
+                            from MongoDB.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="stats-strip">
+
+                    <div>
+                        <span>Total Orders</span>
+                        <strong id="sales-order-count">--</strong>
+                    </div>
+
+                    <div>
+                        <span>Total Quantity</span>
+                        <strong id="sales-quantity">--</strong>
+                    </div>
+
+                    <div>
+                        <span>Total Revenue</span>
+                        <strong id="sales-revenue">--</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="panel table-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>Transaction Records</h3>
+                            <p>Latest sales activity</p>
+                        </div>
+
+                    </div>
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="sales-table-body">
+
+                                <tr>
+                                    <td colspan="7">Loading sales data...</td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= ANALYTICS ================= -->
+
+            <section class="tab-content" id="analytics-tab">
+
+                <div class="section-heading">
+
+                    <div>
+                        <p class="eyebrow">DATA ANALYTICS</p>
+                        <h3>Business Analytics</h3>
+                        <p>
+                            Processed insights generated from business data.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="analytics-grid">
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+                            <h3>Revenue by Category</h3>
+                        </div>
+
+                        <div class="chart-container">
+                            <canvas id="categoryRevenueChart"></canvas>
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+                            <h3>Product Revenue</h3>
+                        </div>
+
+                        <div class="chart-container">
+                            <canvas id="productRevenueChart"></canvas>
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel full-width">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>Customer Spending</h3>
+                                <p>Completed purchase value by customer</p>
+                            </div>
+
+                        </div>
+
+                        <div id="customer-spending-list"
+                             class="spending-list">
+                            Loading...
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= REPORTS ================= -->
+
+            <section class="tab-content" id="reports-tab">
+
+                <div class="section-heading">
+
+                    <div>
+                        <p class="eyebrow">BUSINESS REPORTING</p>
+                        <h3>Analytics Report</h3>
+                        <p>
+                            Generate a summarized business performance report.
+                        </p>
+                    </div>
+
+                    <button class="primary-button" id="generate-report">
+                        Generate Report
+                    </button>
+
+                </div>
+
+
+                <div class="report-card" id="report-card">
+
+                    <div class="report-header">
+
+                        <div>
+                            <p class="eyebrow">SMART BUSINESS ANALYTICS</p>
+                            <h3>Business Performance Report</h3>
+                        </div>
+
+                        <span id="report-date"></span>
+
+                    </div>
+
+
+                    <div class="report-summary-grid">
+
+                        <div>
+                            <span>Total Revenue</span>
+                            <strong id="report-revenue">--</strong>
+                        </div>
+
+                        <div>
+                            <span>Total Orders</span>
+                            <strong id="report-orders">--</strong>
+                        </div>
+
+                        <div>
+                            <span>Total Customers</span>
+                            <strong id="report-customers">--</strong>
+                        </div>
+
+                        <div>
+                            <span>Average Order</span>
+                            <strong id="report-aov">--</strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="report-insights">
+
+                        <h4>Business Insights</h4>
+
+                        <ul id="report-insights-list">
+
+                            <li>
+                                Click "Generate Report" to create the latest
+                                analysis.
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= DATA PROCESS ================= -->
+
+            <section class="tab-content" id="process-tab">
+
+                <div class="section-heading">
+
+                    <div>
+                        <p class="eyebrow">SYSTEM ARCHITECTURE</p>
+                        <h3>Data Processing Pipeline</h3>
+                        <p>
+                            Follow how raw MongoDB data becomes business
+                            intelligence.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="pipeline">
+
+                    <div class="pipeline-step completed">
+
+                        <div class="pipeline-icon">◆</div>
+
+                        <div>
+                            <strong>MongoDB Atlas</strong>
+                            <span>Cloud database</span>
+                        </div>
+
+                        <b>Connected</b>
+
+                    </div>
+
+
+                    <div class="pipeline-arrow">↓</div>
+
+
+                    <div class="pipeline-step completed">
+
+                        <div class="pipeline-icon">↓</div>
+
+                        <div>
+                            <strong>Data Retrieval</strong>
+                            <span>Mongoose queries</span>
+                        </div>
+
+                        <b>Records Retrieved</b>
+
+                    </div>
+
+
+                    <div class="pipeline-arrow">↓</div>
+
+
+                    <div class="pipeline-step completed">
+
+                        <div class="pipeline-icon">✓</div>
+
+                        <div>
+                            <strong>Data Validation</strong>
+                            <span>Schema validation</span>
+                        </div>
+
+                        <b>Validated</b>
+
+                    </div>
+
+
+                    <div class="pipeline-arrow">↓</div>
+
+
+                    <div class="pipeline-step completed">
+
+                        <div class="pipeline-icon">⚙</div>
+
+                        <div>
+                            <strong>Data Processing</strong>
+                            <span>Business calculations</span>
+                        </div>
+
+                        <b>Processed</b>
+
+                    </div>
+
+
+                    <div class="pipeline-arrow">↓</div>
+
+
+                    <div class="pipeline-step completed">
+
+                        <div class="pipeline-icon">◈</div>
+
+                        <div>
+                            <strong>Analytics Engine</strong>
+                            <span>Revenue & customer metrics</span>
+                        </div>
+
+                        <b>Calculated</b>
+
+                    </div>
+
+
+                    <div class="pipeline-arrow">↓</div>
+
+
+                    <div class="pipeline-step completed">
+
+                        <div class="pipeline-icon">API</div>
+
+                        <div>
+                            <strong>REST API</strong>
+                            <span>Express.js endpoints</span>
+                        </div>
+
+                        <b>Response Ready</b>
+
+                    </div>
+
+
+                    <div class="pipeline-arrow">↓</div>
+
+
+                    <div class="pipeline-step final-step">
+
+                        <div class="pipeline-icon">✦</div>
+
+                        <div>
+                            <strong>Frontend Dashboard</strong>
+                            <span>Charts, tables & reports</span>
+                        </div>
+
+                        <b>Updated</b>
+
+                    </div>
+
+                </div>
+
+
+                <div class="architecture-note">
+
+                    <div class="note-icon">💡</div>
+
+                    <div>
+
+                        <h4>Processing Architecture</h4>
+
+                        <p>
+                            The system retrieves structured records from
+                            MongoDB Atlas, validates them using Mongoose
+                            schemas, processes sales and customer information,
+                            calculates analytical metrics through the
+                            backend service layer, exposes the results through
+                            REST APIs, and presents the processed information
+                            through an interactive dashboard.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- Footer -->
+
+            <footer>
+
+                <span>Smart Business Analytics System</span>
+
+                <span>
+                    MongoDB • Node.js • Express • JavaScript • Chart.js
+                </span>
+
+            </footer>
+
+        </main>
+
+    </div>
+
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/customers.js"></script>
+    <script src="js/sales.js"></script>
+    <script src="js/analytics.js"></script>
+    <script src="js/reports.js"></script>
+
+</body>
+</html>
