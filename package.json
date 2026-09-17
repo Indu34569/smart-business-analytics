@@ -1,0 +1,12 @@
+{
+  "name": "smart-business-analytics",
+  "version": "1.0.0",
+  "description": "Smart Business Analytics and Customer Insights System",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "engines": {
+    "node": "22.x"
+  }
+}
