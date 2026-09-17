@@ -22,8 +22,8 @@ async function connectDatabase() {
         throw new Error("MONGODB_URI environment variable is not configured");
     }
 
-    await mongoose.connect(process.env.MONGODB_URI), {
-		dbName: "business_db"
+    await mongoose.connect(process.env.MONGODB_URI, {
+        dbName: "business_db"
     });
 
     isConnected = true;
@@ -74,13 +74,11 @@ async function getAnalytics() {
     const customerSpending = {};
 
     completedSales.forEach(sale => {
-
         const product = products.find(
             item => item.product_id === sale.product_id
         );
 
         if (product) {
-
             categoryRevenue[product.category] =
                 (categoryRevenue[product.category] || 0) +
                 Number(sale.amount);
@@ -101,13 +99,11 @@ async function getAnalytics() {
     let topCustomer = null;
 
     if (topCustomerEntry) {
-
         const customer = customers.find(
             item => item.customer_id === topCustomerEntry[0]
         );
 
         if (customer) {
-
             topCustomer = {
                 customer_id: customer.customer_id,
                 name: customer.name,
@@ -139,7 +135,6 @@ async function getAnalytics() {
             totalQuantity,
             averageOrderValue
         },
-
         monthlyRevenue,
         categoryRevenue,
         productRevenue,
@@ -148,15 +143,10 @@ async function getAnalytics() {
         cityDistribution,
         topCustomer
     };
-};
-
-
-/* Basic API status */
+}
 
 app.get("/api/status", async (req, res) => {
-
     try {
-
         await connectDatabase();
 
         res.json({
@@ -166,9 +156,7 @@ app.get("/api/status", async (req, res) => {
             database: "MongoDB Atlas",
             status: "Operational"
         });
-
     } catch (error) {
-
         res.status(500).json({
             success: false,
             message: "Database connection failed",
@@ -177,11 +165,7 @@ app.get("/api/status", async (req, res) => {
     }
 });
 
-
-/* Basic API information */
-
 app.get("/api", (req, res) => {
-
     res.json({
         success: true,
         message: "Smart Business Analytics API is running",
@@ -189,28 +173,20 @@ app.get("/api", (req, res) => {
     });
 });
 
-
-/* Customers */
-
 app.get("/api/customers", async (req, res) => {
-
     try {
-
         await connectDatabase();
 
-        const customers =
-            await Customer.find().sort({
-                customer_id: 1
-            });
+        const customers = await Customer.find().sort({
+            customer_id: 1
+        });
 
         res.json({
             success: true,
             count: customers.length,
             data: customers
         });
-
     } catch (error) {
-
         res.status(500).json({
             success: false,
             message: "Failed to retrieve customers",
@@ -219,22 +195,15 @@ app.get("/api/customers", async (req, res) => {
     }
 });
 
-
-/* Single customer */
-
 app.get("/api/customers/:customerId", async (req, res) => {
-
     try {
-
         await connectDatabase();
 
-        const customer =
-            await Customer.findOne({
-                customer_id: req.params.customerId
-            });
+        const customer = await Customer.findOne({
+            customer_id: req.params.customerId
+        });
 
         if (!customer) {
-
             return res.status(404).json({
                 success: false,
                 message: "Customer not found"
@@ -245,9 +214,7 @@ app.get("/api/customers/:customerId", async (req, res) => {
             success: true,
             data: customer
         });
-
     } catch (error) {
-
         res.status(500).json({
             success: false,
             message: "Failed to retrieve customer",
@@ -256,28 +223,20 @@ app.get("/api/customers/:customerId", async (req, res) => {
     }
 });
 
-
-/* Sales */
-
 app.get("/api/sales", async (req, res) => {
-
     try {
-
         await connectDatabase();
 
-        const sales =
-            await Sale.find().sort({
-                date: -1
-            });
+        const sales = await Sale.find().sort({
+            date: -1
+        });
 
         res.json({
             success: true,
             count: sales.length,
             data: sales
         });
-
     } catch (error) {
-
         res.status(500).json({
             success: false,
             message: "Failed to retrieve sales",
@@ -286,30 +245,22 @@ app.get("/api/sales", async (req, res) => {
     }
 });
 
-
-/* Sales by customer */
-
 app.get("/api/sales/customer/:customerId", async (req, res) => {
-
     try {
-
         await connectDatabase();
 
-        const sales =
-            await Sale.find({
-                customer_id: req.params.customerId
-            }).sort({
-                date: -1
-            });
+        const sales = await Sale.find({
+            customer_id: req.params.customerId
+        }).sort({
+            date: -1
+        });
 
         res.json({
             success: true,
             count: sales.length,
             data: sales
         });
-
     } catch (error) {
-
         res.status(500).json({
             success: false,
             message: "Failed to retrieve customer sales",
@@ -318,25 +269,17 @@ app.get("/api/sales/customer/:customerId", async (req, res) => {
     }
 });
 
-
-/* Complete analytics */
-
 app.get("/api/analytics", async (req, res) => {
-
     try {
-
         await connectDatabase();
 
-        const analytics =
-            await getAnalytics();
+        const analytics = await getAnalytics();
 
         res.json({
             success: true,
             data: analytics
         });
-
     } catch (error) {
-
         console.error(
             "Analytics error:",
             error.message
@@ -349,6 +292,5 @@ app.get("/api/analytics", async (req, res) => {
         });
     }
 });
-
 
 module.exports = app;
